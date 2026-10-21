@@ -1,0 +1,26 @@
+# Keil MDK 编译产物
+Output/
+Objects/
+Listings/
+DebugConfig/
+MDK-ARM/STM32F103TEST/
+MDK-ARM/STM32F407_CAN_Master/
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.map
+*.htm
+*.lnp
+*.sct
+*.dep
+*.iex
+*.lst
+
+# Keil 个人界面配置（非代码）
+*.uvoptx
+*.uvguix.*
+
+# VS Code 编辑器配置
+.vscode/
