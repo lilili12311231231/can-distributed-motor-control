@@ -12,13 +12,11 @@
   <line x1="60" y1="158" x2="235" y2="158" stroke="#c9d4e3" stroke-width="1"/>
   <text x="60" y="178" font-size="11.5" fill="#33415c">· CAN1（PA11 / PA12）</text>
   <text x="60" y="198" font-size="11.5" fill="#33415c">· 每 3 s 切换目标角度</text>
-  <text x="60" y="218" font-size="11.5" fill="#33415c">· 90°（16384）↔ 180°（32768）</text>
-  <text x="60" y="238" font-size="11.5" fill="#8a6d3b">· CANopenNode 已移植未启用</text>
+  <text x="60" y="218" font-size="11.5" fill="#33415c">· 90° ↔ 180°</text>
+  <text x="60" y="238" font-size="11.5" fill="#33415c">· 16384 ↔ 32768 计数</text>
 
   <!-- CAN 总线 -->
   <line x1="255" y1="175" x2="525" y2="175" stroke="#2f4b7c" stroke-width="2.4"/>
-  <line x1="255" y1="175" x2="255" y2="145" stroke="#2f4b7c" stroke-width="2.4"/>
-  <line x1="525" y1="175" x2="525" y2="205" stroke="#2f4b7c" stroke-width="2.4"/>
   <rect x="330" y="140" width="120" height="22" rx="4" fill="#eef3fa" stroke="#c9d4e3"/>
   <text x="390" y="155" text-anchor="middle" font-size="11" fill="#2f4b7c">CAN 500 Kbps</text>
 
@@ -62,14 +60,15 @@
   <line x1="870" y1="250" x2="870" y2="259" stroke="#b08d57" stroke-width="2"/>
 
   <!-- 换算公式 -->
-  <rect x="40" y="290" width="700" height="66" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
-  <text x="60" y="313" font-size="12" font-weight="700" fill="#2f4b7c">坐标换算（整数运算，避免浮点误差）</text>
-  <text x="60" y="334" font-size="11.5" fill="#33415c">编码器计数 → 步数：step = Δenc × 3200 / 65536 = Δenc × 25 / 512　　　位置 = carry × 65536 + value</text>
-  <text x="60" y="351" font-size="11.5" fill="#33415c">角度：90° = 16384 计数 = 800 步　　180° = 32768 计数 = 1600 步　　1 步 ≈ 20.48 计数</text>
+  <rect x="40" y="282" width="760" height="68" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
+  <text x="60" y="305" font-size="12" font-weight="700" fill="#2f4b7c">坐标换算（整数运算，避免浮点误差）</text>
+  <text x="60" y="326" font-size="11.5" fill="#33415c">编码器计数 → 步数：step = Δenc × 3200 / 65536 = Δenc × 25 / 512　　位置 = carry × 65536 + value</text>
+  <text x="60" y="343" font-size="11.5" fill="#33415c">角度：90° = 16384 计数 = 800 步　　180° = 32768 计数 = 1600 步　　1 步 ≈ 20.48 计数</text>
 
   <!-- 说明 -->
-  <rect x="40" y="372" width="905" height="72" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
-  <text x="60" y="394" font-size="12" font-weight="700" fill="#2f4b7c">职责划分</text>
-  <text x="60" y="415" font-size="11.5" fill="#33415c">主站负责「发多少度」，从站负责「差多少、拆方向、发指令」，闭环在驱动器内部完成 —— MCU 不参与电流环/速度环整定。</text>
-  <text x="60" y="434" font-size="11.5" fill="#33415c">回零用按键记录参考点 home_full，所有目标都是相对 home 的偏移，规避驱动器 carry 断电手拧后过期的问题。</text>
+  <rect x="40" y="360" width="905" height="94" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
+  <text x="60" y="383" font-size="12" font-weight="700" fill="#2f4b7c">职责划分</text>
+  <text x="60" y="403" font-size="11.5" fill="#33415c">主站负责「发多少度」，从站负责「差多少、拆方向、发指令」，闭环在驱动器内部完成 —— MCU 不参与电流环/速度环整定。</text>
+  <text x="60" y="421" font-size="11.5" fill="#33415c">回零用按键记录参考点 home_full，所有目标都是相对 home 的偏移，规避驱动器 carry 断电手拧后过期的问题。</text>
+  <text x="60" y="441" font-size="11.5" fill="#8a6d3b">CANopenNode 已移植进主站工程并编译通过，但主循环仍走裸 CAN（CO = NULL），协议栈未启用。</text>
 </svg>
