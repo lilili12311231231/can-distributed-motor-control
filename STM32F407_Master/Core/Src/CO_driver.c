@@ -27,13 +27,13 @@ extern CAN_HandleTypeDef hcan1;
 
 void
 CO_CANsetConfigurationMode(void* CANptr) {
-    HAL_CAN_Stop(&hcan1); /* Í£Ö¹CANÄ£¿é */
+    HAL_CAN_Stop(&hcan1); /* åœæ­¢CANæ¨¡å— */
 }
 void
 CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
-    HAL_CAN_Start(&hcan1); /* Æô¶¯CANÄ£¿é */
-    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING); /* Ê¹ÄÜ½ÓÊÕFIFO0ÏûÏ¢´ıÖĞ¶ÏÇëÇó */
-    CANmodule->CANnormal = true; /* ÉèÖÃCANÄ£¿éÎªÕı³£Ä£Ê½ */
+    HAL_CAN_Start(&hcan1); /* å¯åŠ¨CANæ¨¡å— */
+    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING); /* ä½¿èƒ½æ¥æ”¶FIFO0æ¶ˆæ¯å¾…ä¸­æ–­è¯·æ±‚ */
+    CANmodule->CANnormal = true; /* è®¾ç½®CANæ¨¡å—ä¸ºæ­£å¸¸æ¨¡å¼ */
 }
 
 CO_ReturnError_t
@@ -47,27 +47,27 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     }
 
     /* Configure object variables */
-    CANmodule->CANptr = CANptr; /* CANÄ£¿éÖ¸Õë */
-    CANmodule->rxArray = rxArray; /* ½ÓÊÕÖ¡¶ÔÏóÊı×é */
-    CANmodule->rxSize = rxSize; /* ½ÓÊÕÖ¡¶ÔÏóÊı×é´óĞ¡ */
-    CANmodule->txArray = txArray; /* ·¢ËÍÖ¡¶ÔÏóÊı×é */
-    CANmodule->txSize = txSize; /* ·¢ËÍÖ¡¶ÔÏóÊı×é´óĞ¡ */
-    CANmodule->CANerrorStatus = 0; /* CAN´íÎó×´Ì¬ */
-    CANmodule->CANnormal = false; /* ÊÇ·ñÎªÕı³£Ä£Ê½ */
-    CANmodule->useCANrxFilters = false; /* ÊÇ·ñÊ¹ÓÃ½ÓÊÕ¹ıÂËÆ÷ */
-    CANmodule->bufferInhibitFlag = false; /* ÊÇ·ñ½ûÓÃ·¢ËÍ»º³åÇø */
-    CANmodule->firstCANtxMessage = true; /* ÊÇ·ñÎªµÚÒ»¸ö·¢ËÍÏûÏ¢ */
-    CANmodule->CANtxCount = 0U; /* ·¢ËÍÏûÏ¢¼ÆÊıÆ÷ */
-    CANmodule->errOld = 0U; /* ÉÏÒ»¸ö´íÎó×´Ì¬ */
+    CANmodule->CANptr = CANptr; /* CANæ¨¡å—æŒ‡é’ˆ */
+    CANmodule->rxArray = rxArray; /* æ¥æ”¶å¸§å¯¹è±¡æ•°ç»„ */
+    CANmodule->rxSize = rxSize; /* æ¥æ”¶å¸§å¯¹è±¡æ•°ç»„å¤§å° */
+    CANmodule->txArray = txArray; /* å‘é€å¸§å¯¹è±¡æ•°ç»„ */
+    CANmodule->txSize = txSize; /* å‘é€å¸§å¯¹è±¡æ•°ç»„å¤§å° */
+    CANmodule->CANerrorStatus = 0; /* CANé”™è¯¯çŠ¶æ€ */
+    CANmodule->CANnormal = false; /* æ˜¯å¦ä¸ºæ­£å¸¸æ¨¡å¼ */
+    CANmodule->useCANrxFilters = false; /* æ˜¯å¦ä½¿ç”¨æ¥æ”¶è¿‡æ»¤å™¨ */
+    CANmodule->bufferInhibitFlag = false; /* æ˜¯å¦ç¦ç”¨å‘é€ç¼“å†²åŒº */
+    CANmodule->firstCANtxMessage = true; /* æ˜¯å¦ä¸ºç¬¬ä¸€ä¸ªå‘é€æ¶ˆæ¯ */
+    CANmodule->CANtxCount = 0U; /* å‘é€æ¶ˆæ¯è®¡æ•°å™¨ */
+    CANmodule->errOld = 0U; /* ä¸Šä¸€ä¸ªé”™è¯¯çŠ¶æ€ */
 
     for (i = 0U; i < rxSize; i++) {
-        rxArray[i].ident = 0U; /* ½ÓÊÕÖ¡±êÊ¶·û */
-        rxArray[i].mask = 0xFFFFU; /* ½ÓÊÕÖ¡ÑÚÂë */
-        rxArray[i].object = NULL; /* ½ÓÊÕÖ¡¶ÔÏó */
-        rxArray[i].CANrx_callback = NULL; /* ½ÓÊÕÖ¡»Øµ÷º¯Êı */
+        rxArray[i].ident = 0U; /* æ¥æ”¶å¸§æ ‡è¯†ç¬¦ */
+        rxArray[i].mask = 0xFFFFU; /* æ¥æ”¶å¸§æ©ç  */
+        rxArray[i].object = NULL; /* æ¥æ”¶å¸§å¯¹è±¡ */
+        rxArray[i].CANrx_callback = NULL; /* æ¥æ”¶å¸§å›è°ƒå‡½æ•° */
     }
     for (i = 0U; i < txSize; i++) {
-        txArray[i].bufferFull = false; /* ·¢ËÍÖ¡»º³åÇøÊÇ·ñÒÑÂú */
+        txArray[i].bufferFull = false; /* å‘é€å¸§ç¼“å†²åŒºæ˜¯å¦å·²æ»¡ */
     }
 
     /* Configure CAN module registers */
@@ -83,57 +83,57 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     } else {
         CAN_FilterTypeDef filterConfig;
 
-        filterConfig.FilterBank = 0; /* ½ÓÊÕ¹ıÂËÆ÷ÒøĞĞ */
-        filterConfig.FilterMode = CAN_FILTERMODE_IDMASK; /* ½ÓÊÕ¹ıÂËÆ÷Ä£Ê½ */
-        filterConfig.FilterScale = CAN_FILTERSCALE_32BIT; /* ½ÓÊÕ¹ıÂËÆ÷¹æÄ£ */
-        filterConfig.FilterIdHigh = 0; /* ½ÓÊÕ¹ıÂËÆ÷¸ß16Î»±êÊ¶·û */
-        filterConfig.FilterIdLow = 0; /* ½ÓÊÕ¹ıÂËÆ÷µÍ16Î»±êÊ¶·û */
-        filterConfig.FilterMaskIdHigh = 0; /* ½ÓÊÕ¹ıÂËÆ÷ÑÚÂë¸ß16Î»±êÊ¶·û */
-        filterConfig.FilterMaskIdLow = 0; /* ½ÓÊÕ¹ıÂËÆ÷ÑÚÂëµÍ16Î»±êÊ¶·û */
-        filterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0; /* ½ÓÊÕ¹ıÂËÆ÷FIFO¸³Öµ */
-        filterConfig.FilterActivation = ENABLE; /* ½ÓÊÕ¹ıÂËÆ÷Ê¹ÄÜ */
-        filterConfig.SlaveStartFilterBank = 14; /* ´Ó½ÓÊÕ¹ıÂËÆ÷ÒøĞĞ14¿ªÊ¼ */
+        filterConfig.FilterBank = 0; /* æ¥æ”¶è¿‡æ»¤å™¨é“¶è¡Œ */
+        filterConfig.FilterMode = CAN_FILTERMODE_IDMASK; /* æ¥æ”¶è¿‡æ»¤å™¨æ¨¡å¼ */
+        filterConfig.FilterScale = CAN_FILTERSCALE_32BIT; /* æ¥æ”¶è¿‡æ»¤å™¨è§„æ¨¡ */
+        filterConfig.FilterIdHigh = 0; /* æ¥æ”¶è¿‡æ»¤å™¨é«˜16ä½æ ‡è¯†ç¬¦ */
+        filterConfig.FilterIdLow = 0; /* æ¥æ”¶è¿‡æ»¤å™¨ä½16ä½æ ‡è¯†ç¬¦ */
+        filterConfig.FilterMaskIdHigh = 0; /* æ¥æ”¶è¿‡æ»¤å™¨æ©ç é«˜16ä½æ ‡è¯†ç¬¦ */
+        filterConfig.FilterMaskIdLow = 0; /* æ¥æ”¶è¿‡æ»¤å™¨æ©ç ä½16ä½æ ‡è¯†ç¬¦ */
+        filterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0; /* æ¥æ”¶è¿‡æ»¤å™¨FIFOèµ‹å€¼ */
+        filterConfig.FilterActivation = ENABLE; /* æ¥æ”¶è¿‡æ»¤å™¨ä½¿èƒ½ */
+        filterConfig.SlaveStartFilterBank = 14; /* ä»æ¥æ”¶è¿‡æ»¤å™¨é“¶è¡Œ14å¼€å§‹ */
 
-        HAL_CAN_ConfigFilter(&hcan1, &filterConfig); /* ÅäÖÃ½ÓÊÕ¹ıÂËÆ÷ */
+        HAL_CAN_ConfigFilter(&hcan1, &filterConfig); /* é…ç½®æ¥æ”¶è¿‡æ»¤å™¨ */
 
     }
 
     /* configure CAN interrupt registers */
 
-    return CO_ERROR_NO; /* ·µ»Ø³É¹¦ */
+    return CO_ERROR_NO; /* è¿”å›æˆåŠŸ */
 }
 
 void
 CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL) {
-        HAL_CAN_Stop(&hcan1); /* Í£Ö¹CANÄ£¿é */
+        HAL_CAN_Stop(&hcan1); /* åœæ­¢CANæ¨¡å— */
     }
 }
 
 CO_ReturnError_t
 CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, uint16_t mask, bool_t rtr, void* object,
                    void (*CANrx_callback)(void* object, void* message)) {
-    CO_ReturnError_t ret = CO_ERROR_NO; /* ·µ»Ø³É¹¦ */
+    CO_ReturnError_t ret = CO_ERROR_NO; /* è¿”å›æˆåŠŸ */
 
     if ((CANmodule != NULL) && (object != NULL) && (CANrx_callback != NULL) && (index < CANmodule->rxSize)) {
         /* buffer, which will be configured */
-        CO_CANrx_t* buffer = &CANmodule->rxArray[index]; /* ½ÓÊÕÖ¡¶ÔÏóÖ¸Õë */
+        CO_CANrx_t* buffer = &CANmodule->rxArray[index]; /* æ¥æ”¶å¸§å¯¹è±¡æŒ‡é’ˆ */
 
         /* Configure object variables */
-        buffer->object = object; /* ½ÓÊÕÖ¡¶ÔÏó */
-        buffer->CANrx_callback = CANrx_callback; /* ½ÓÊÕÖ¡»Øµ÷º¯Êı */
+        buffer->object = object; /* æ¥æ”¶å¸§å¯¹è±¡ */
+        buffer->CANrx_callback = CANrx_callback; /* æ¥æ”¶å¸§å›è°ƒå‡½æ•° */
 
         /* CAN identifier and CAN mask, bit aligned with CAN module. Different on different microcontrollers. */
-        buffer->ident = ident & 0x07FFU; /* ½ÓÊÕÖ¡±êÊ¶·û */
+        buffer->ident = ident & 0x07FFU; /* æ¥æ”¶å¸§æ ‡è¯†ç¬¦ */
         if (rtr) {
-            buffer->ident |= 0x0800U; /* ÉèÖÃRTRÎ» */
+            buffer->ident |= 0x0800U; /* è®¾ç½®RTRä½ */
         }
-        buffer->mask = (mask & 0x07FFU) | 0x0800U; /* ½ÓÊÕÖ¡ÑÚÂë */
+        buffer->mask = (mask & 0x07FFU) | 0x0800U; /* æ¥æ”¶å¸§æ©ç  */
 
         /* Set CAN hardware module filter and mask. */
         if (CANmodule->useCANrxFilters) {}
     } else {
-        ret = CO_ERROR_ILLEGAL_ARGUMENT; /* ·µ»Ø´íÎó£ºÎŞĞ§²ÎÊı */
+        ret = CO_ERROR_ILLEGAL_ARGUMENT; /* è¿”å›é”™è¯¯ï¼šæ— æ•ˆå‚æ•° */
     }
 
     return ret;
@@ -173,20 +173,20 @@ CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
     }
 
     CO_LOCK_CAN_SEND(CANmodule);
-    /* ÊÇÍ¬²½TPDO»ò·ÇÍ¬²½TPDO */
+    /* æ˜¯åŒæ­¥TPDOæˆ–éåŒæ­¥TPDO */
     if (CANmodule->CANtxCount == 0) {
-        CANmodule->bufferInhibitFlag = buffer->syncFlag; /* ·¢ËÍÍ¬²½TPDO */
-        CAN_TxHeaderTypeDef txHeader; /* ·¢ËÍÖ¡Í· */
-        uint32_t txMailbox; /* ·¢ËÍÓÊÏä */
+        CANmodule->bufferInhibitFlag = buffer->syncFlag; /* å‘é€åŒæ­¥TPDO */
+        CAN_TxHeaderTypeDef txHeader; /* å‘é€å¸§å¤´ */
+        uint32_t txMailbox; /* å‘é€é‚®ç®± */
 
-        txHeader.StdId = buffer->ident & 0x07FFU; /* ·¢ËÍÖ¡±êÊ¶·û */
-        txHeader.ExtId = 0; /* ·¢ËÍÖ¡À©Õ¹±êÊ¶·û */
-        txHeader.IDE = CAN_ID_STD; /* ·¢ËÍÖ¡±êÊ¶·ûÀàĞÍ */
-        txHeader.RTR = CAN_RTR_DATA; /* ·¢ËÍÖ¡ÀàĞÍ */
-        txHeader.DLC = (buffer->ident >> 11) & 0xFU; /* ·¢ËÍÖ¡Êı¾İ³¤¶È */
-        txHeader.TransmitGlobalTime = DISABLE; /* ½ûÓÃÈ«¾ÖÊ±¼ä */
+        txHeader.StdId = buffer->ident & 0x07FFU; /* å‘é€å¸§æ ‡è¯†ç¬¦ */
+        txHeader.ExtId = 0; /* å‘é€å¸§æ‰©å±•æ ‡è¯†ç¬¦ */
+        txHeader.IDE = CAN_ID_STD; /* å‘é€å¸§æ ‡è¯†ç¬¦ç±»å‹ */
+        txHeader.RTR = CAN_RTR_DATA; /* å‘é€å¸§ç±»å‹ */
+        txHeader.DLC = (buffer->ident >> 11) & 0xFU; /* å‘é€å¸§æ•°æ®é•¿åº¦ */
+        txHeader.TransmitGlobalTime = DISABLE; /* ç¦ç”¨å…¨å±€æ—¶é—´ */
 
-        HAL_CAN_AddTxMessage(&hcan1, &txHeader, buffer->data, &txMailbox); /* Ìí¼ÓËÍÖ¡µ½·¢ËÍÓÊÏä */
+        HAL_CAN_AddTxMessage(&hcan1, &txHeader, buffer->data, &txMailbox); /* æ·»åŠ é€å¸§åˆ°å‘é€é‚®ç®± */
         
     }
     /* if no buffer is free, CAN frame will be sent by interrupt */
@@ -290,8 +290,8 @@ CO_CANmodule_process(CO_CANmodule_t* CANmodule)
     }
 }
 
-static CO_CANrxMsg_t rxMsg; /*½ÓÊÕµÄCANÖ¡£¬ÓÃÓÚ´æ´¢½ÓÊÕµÄCANÖ¡ĞÅÏ¢*/
-static CAN_RxHeaderTypeDef rxHeader; /* ½ÓÊÕÖ¡Í· */
+static CO_CANrxMsg_t rxMsg; /*æ¥æ”¶çš„CANå¸§ï¼Œç”¨äºå­˜å‚¨æ¥æ”¶çš„CANå¸§ä¿¡æ¯*/
+static CAN_RxHeaderTypeDef rxHeader; /* æ¥æ”¶å¸§å¤´ */
 void
 CO_CANinterrupt(CO_CANmodule_t* CANmodule) 
 {
@@ -301,27 +301,27 @@ CO_CANinterrupt(CO_CANmodule_t* CANmodule)
         uint16_t index;            /* index of received CAN frame */
         uint32_t rcvMsgIdent;      /* identifier of the received CAN frame */
         CO_CANrx_t* buffer = NULL; /* receive CsAN frame buffer from CO_CANmodule_t object. */
-        bool_t msgMatched = false; /*ÊÇ·ñÆ¥ÅäµÄCANÖ¡*/
+        bool_t msgMatched = false; /*æ˜¯å¦åŒ¹é…çš„CANå¸§*/
 
-        if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxHeader, rxMsg.data) !=HAL_OK) {   /*½ÓÊÕCANÖ¡Ê§°Ü*/
-            return; /*½ÓÊÕCANÖ¡Ê§°Ü*/
+        if(HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxHeader, rxMsg.data) !=HAL_OK) {   /*æ¥æ”¶CANå¸§å¤±è´¥*/
+            return; /*æ¥æ”¶CANå¸§å¤±è´¥*/
         }
-        rxMsg.ident = rxHeader.StdId; /*½ÓÊÕµÄCANÖ¡±êÊ¶·û*/
-        rxMsg.DLC = rxHeader.DLC; /*½ÓÊÕµÄCANÖ¡Êı¾İ³¤¶È*/
+        rxMsg.ident = rxHeader.StdId; /*æ¥æ”¶çš„CANå¸§æ ‡è¯†ç¬¦*/
+        rxMsg.DLC = rxHeader.DLC; /*æ¥æ”¶çš„CANå¸§æ•°æ®é•¿åº¦*/
 
-        rcvMsg = &rxMsg;  /*½ÓÊÕµÄCANÖ¡Ö¸Õë*/
-        rcvMsgIdent = rxMsg.ident; /*½ÓÊÕµÄCANÖ¡±êÊ¶·û*/
+        rcvMsg = &rxMsg;  /*æ¥æ”¶çš„CANå¸§æŒ‡é’ˆ*/
+        rcvMsgIdent = rxMsg.ident; /*æ¥æ”¶çš„CANå¸§æ ‡è¯†ç¬¦*/
 
         
-        buffer = &CANmodule->rxArray[0];  /*½ÓÊÕCANÖ¡»º³åÇø*/
-               for (index = CANmodule->rxSize; index > 0U; index--) {  /*±éÀúCANÄ£¿éµÄ½ÓÊÕ»º³åÇø*/
-            if (((rcvMsgIdent ^ buffer->ident) & buffer->mask) == 0U) {  /*ÅĞ¶ÏÊÇ·ñÆ¥Åä*/
-                msgMatched = true;/*ÕÒµ½Æ¥ÅäµÄCANÖ¡*/
-                break; /*ÕÒµ½Æ¥ÅäµÄCANÖ¡£¬Ìø³öÑ­»·*/
+        buffer = &CANmodule->rxArray[0];  /*æ¥æ”¶CANå¸§ç¼“å†²åŒº*/
+               for (index = CANmodule->rxSize; index > 0U; index--) {  /*éå†CANæ¨¡å—çš„æ¥æ”¶ç¼“å†²åŒº*/
+            if (((rcvMsgIdent ^ buffer->ident) & buffer->mask) == 0U) {  /*åˆ¤æ–­æ˜¯å¦åŒ¹é…*/
+                msgMatched = true;/*æ‰¾åˆ°åŒ¹é…çš„CANå¸§*/
+                break; /*æ‰¾åˆ°åŒ¹é…çš„CANå¸§ï¼Œè·³å‡ºå¾ªç¯*/
             }
-            buffer++; /*ÏÂÒ»¸öCANÖ¡»º³åÇø*/
+            buffer++; /*ä¸‹ä¸€ä¸ªCANå¸§ç¼“å†²åŒº*/
         }
-/*Èç¹ûÆ¥ÅäµÄCANÖ¡´æÔÚ£¬ÇÒ»Øµ÷º¯Êı´æÔÚ£¬µ÷ÓÃ»Øµ÷º¯Êı*/
+/*å¦‚æœåŒ¹é…çš„CANå¸§å­˜åœ¨ï¼Œä¸”å›è°ƒå‡½æ•°å­˜åœ¨ï¼Œè°ƒç”¨å›è°ƒå‡½æ•°*/
         if (msgMatched && (buffer != NULL) && (buffer->CANrx_callback != NULL)) {
             buffer->CANrx_callback(buffer->object, (void*)rcvMsg);
         }

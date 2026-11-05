@@ -1,107 +1,107 @@
-// 42C µç»ú·¢ËÍÃüÁîº¯Êı
+// 42C ç”µæœºå‘é€å‘½ä»¤å‡½æ•°
 #include "servo42c.h"
 
-extern UART_HandleTypeDef huart1; // ÉùÃ÷ UART ¾ä±ú
+extern UART_HandleTypeDef huart1; // å£°æ˜ UART å¥æŸ„
 void Servo_SendCommand(uint8_t func, uint8_t *data, uint8_t len)
 {
-    uint8_t buf[8];// ·¢ËÍ»º³åÇø
-    uint8_t sum = 0; // Ğ£ÑéºÍ
+    uint8_t buf[8];// å‘é€ç¼“å†²åŒº
+    uint8_t sum = 0; // æ ¡éªŒå’Œ
 
-    buf[0] = SERVO_ADDR;// 42C µç»úµØÖ·
-    buf[1] = func;// ¹¦ÄÜ×Ö
+    buf[0] = SERVO_ADDR;// 42C ç”µæœºåœ°å€
+    buf[1] = func;// åŠŸèƒ½å­—
     
     for (uint8_t i = 0; i < len; i++)
     {
         buf[2 + i] = data[i];
-        sum += data[i];// ¼ÓÉÏÊı¾İ×Ö½Ú
+        sum += data[i];// åŠ ä¸Šæ•°æ®å­—èŠ‚
     }
-    sum += buf[0];// ¼ÓÉÏµØÖ·×Ö½Ú
-    sum += buf[1];// ¼ÓÉÏ¹¦ÄÜ×Ö½Ú
-    buf[2 + len] = sum;// Ğ£ÑéºÍ×Ö½Ú
-    HAL_UART_Transmit(&huart1, buf, 2 + len + 1, 100);// ·¢ËÍÊı¾İ
+    sum += buf[0];// åŠ ä¸Šåœ°å€å­—èŠ‚
+    sum += buf[1];// åŠ ä¸ŠåŠŸèƒ½å­—èŠ‚
+    buf[2 + len] = sum;// æ ¡éªŒå’Œå­—èŠ‚
+    HAL_UART_Transmit(&huart1, buf, 2 + len + 1, 100);// å‘é€æ•°æ®
 }
-// 42C µç»úÊ¹ÄÜº¯Êı
+// 42C ç”µæœºä½¿èƒ½å‡½æ•°
 void Servo_Enable(void) 
 {
-    uint8_t dummy[3] = {0}; // ½ÓÊÕÓ¦´ğµÄ»º³åÇø
-    uint8_t flush_tmp = 0; // Çå¿Õ UART Æô¶¯²ĞÁô×Ö½Ú
+    uint8_t dummy[3] = {0}; // æ¥æ”¶åº”ç­”çš„ç¼“å†²åŒº
+    uint8_t flush_tmp = 0; // æ¸…ç©º UART å¯åŠ¨æ®‹ç•™å­—èŠ‚
     while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {}
-    uint8_t data_mode[1] = {0x02}; // 0x02 = CR_UART ´®¿Ú¿ØÖÆÄ£Ê½
-    Servo_SendCommand(0x82, data_mode, 1); // ÉèÖÃ¹¤×÷Ä£Ê½£¨¹Ø¼ü£ºÄ¬ÈÏÊÇÂö³åÄ£Ê½£¬´®¿ÚÔË¶¯ÃüÁî²»Çı¶¯µç»ú£©
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // ¼ÇÂ¼Ä£Ê½»Ø¸´
-    HAL_Delay(2000); // Ä£Ê½ÇĞ»»µÈ´ı¼Ó³¤µ½ 2 Ãë
-    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // ÇåÄ£Ê½ÇĞ»»²ĞÁô
+    uint8_t data_mode[1] = {0x02}; // 0x02 = CR_UART ä¸²å£æ§åˆ¶æ¨¡å¼
+    Servo_SendCommand(0x82, data_mode, 1); // è®¾ç½®å·¥ä½œæ¨¡å¼ï¼ˆå…³é”®ï¼šé»˜è®¤æ˜¯è„‰å†²æ¨¡å¼ï¼Œä¸²å£è¿åŠ¨å‘½ä»¤ä¸é©±åŠ¨ç”µæœºï¼‰
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // è®°å½•æ¨¡å¼å›å¤
+    HAL_Delay(2000); // æ¨¡å¼åˆ‡æ¢ç­‰å¾…åŠ é•¿åˆ° 2 ç§’
+    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // æ¸…æ¨¡å¼åˆ‡æ¢æ®‹ç•™
     
-    uint8_t data_en[1] = {0x02}; // 0x02 = Hold Ò»Ö±Ê¹ÄÜ£¨ÅÅ³ıĞü¿Õ EN Òı½ÅÓ°Ïì£©
-    Servo_SendCommand(0x85, data_en, 1); // ÉèÖÃ EN Òı½ÅÓĞĞ§µçÆ½
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // ¼ÇÂ¼ EN Òı½Å»Ø¸´
-    HAL_Delay(500); // µÈ EN ÉèÖÃÉúĞ§
-    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // Çå²ĞÁô
+    uint8_t data_en[1] = {0x02}; // 0x02 = Hold ä¸€ç›´ä½¿èƒ½ï¼ˆæ’é™¤æ‚¬ç©º EN å¼•è„šå½±å“ï¼‰
+    Servo_SendCommand(0x85, data_en, 1); // è®¾ç½® EN å¼•è„šæœ‰æ•ˆç”µå¹³
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // è®°å½• EN å¼•è„šå›å¤
+    HAL_Delay(500); // ç­‰ EN è®¾ç½®ç”Ÿæ•ˆ
+    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // æ¸…æ®‹ç•™
 
-    uint8_t data[1] = {0x01}; // Ê¹ÄÜÊı¾İ
-    Servo_SendCommand(SERVO_FUNC_ENABLE, data, 1); // ·¢ËÍÊ¹ÄÜÃüÁî
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // ¼ÇÂ¼Ê¹ÄÜ»Ø¸´
+    uint8_t data[1] = {0x01}; // ä½¿èƒ½æ•°æ®
+    Servo_SendCommand(SERVO_FUNC_ENABLE, data, 1); // å‘é€ä½¿èƒ½å‘½ä»¤
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // è®°å½•ä½¿èƒ½å›å¤
     HAL_Delay(500);
-    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // ÇåÊ¹ÄÜ²ĞÁô×Ö½Ú
- // Ê¹ÄÜµÈ´ı¼Ó³¤µ½ 500ms
+    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // æ¸…ä½¿èƒ½æ®‹ç•™å­—èŠ‚
+ // ä½¿èƒ½ç­‰å¾…åŠ é•¿åˆ° 500ms
 }
-// 42C ÖÃÁãÃüÁî£º°Ñµ±Ç°±àÂëÆ÷Î»ÖÃÉèÎªÁã£¨ÊÖ¶¯»ØÁãÓÃ£©
+// 42C ç½®é›¶å‘½ä»¤ï¼šæŠŠå½“å‰ç¼–ç å™¨ä½ç½®è®¾ä¸ºé›¶ï¼ˆæ‰‹åŠ¨å›é›¶ç”¨ï¼‰
 void Servo_SetZero(void)
 {
-    uint8_t dummy[3] = {0}; // ½ÓÊÕÓ¦´ğµÄ»º³å
-    uint8_t flush_tmp = 0;  // Çå UART ²ĞÁô×Ö½Ú
-    Servo_SendCommand(SERVO_FUNC_SET_ZERO, NULL, 0); // ·¢ËÍÖÃÁãÃüÁî
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // ¶Á 3 ×Ö½ÚÓ¦´ğ
-    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // Çå²ĞÁô
+    uint8_t dummy[3] = {0}; // æ¥æ”¶åº”ç­”çš„ç¼“å†²
+    uint8_t flush_tmp = 0;  // æ¸… UART æ®‹ç•™å­—èŠ‚
+    Servo_SendCommand(SERVO_FUNC_SET_ZERO, NULL, 0); // å‘é€ç½®é›¶å‘½ä»¤
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // è¯» 3 å­—èŠ‚åº”ç­”
+    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // æ¸…æ®‹ç•™
 }
 
-// 42C µç»úÍ£Ö¹º¯Êı
+// 42C ç”µæœºåœæ­¢å‡½æ•°
 void Servo_Stop(void)
 {
-    uint8_t dummy[3] = {0}; // ½ÓÊÕÓ¦´ğµÄ»º³åÇø
-    Servo_SendCommand(SERVO_FUNC_STOP, NULL, 0); // ·¢ËÍÍ£Ö¹ÃüÁî
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // µÈ´ı»Ø¸´
+    uint8_t dummy[3] = {0}; // æ¥æ”¶åº”ç­”çš„ç¼“å†²åŒº
+    Servo_SendCommand(SERVO_FUNC_STOP, NULL, 0); // å‘é€åœæ­¢å‘½ä»¤
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // ç­‰å¾…å›å¤
 }
-// 42C µç»úËÙ¶È¿ØÖÆº¯Êı
+// 42C ç”µæœºé€Ÿåº¦æ§åˆ¶å‡½æ•°
 void Servo_SetSpeed(uint8_t dir, uint8_t speed)
 {
-    uint8_t dummy[3] = {0}; // ½ÓÊÕÓ¦´ğµÄ»º³åÇø
-    uint8_t val = (dir << 7) | (speed & 0x7F); // ·½Ïò+ËÙ¶ÈÆ´³ÉÒ»¸ö×Ö½Ú
-    Servo_SendCommand(SERVO_FUNC_SPEED, &val, 1); // ·¢ËÍËÙ¶È¿ØÖÆÃüÁî
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // µÈ´ı»Ø¸´
+    uint8_t dummy[3] = {0}; // æ¥æ”¶åº”ç­”çš„ç¼“å†²åŒº
+    uint8_t val = (dir << 7) | (speed & 0x7F); // æ–¹å‘+é€Ÿåº¦æ‹¼æˆä¸€ä¸ªå­—èŠ‚
+    Servo_SendCommand(SERVO_FUNC_SPEED, &val, 1); // å‘é€é€Ÿåº¦æ§åˆ¶å‘½ä»¤
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // ç­‰å¾…å›å¤
 }
-// 42C µç»ú¶ÁÈ¡±àÂëÆ÷º¯Êı
+// 42C ç”µæœºè¯»å–ç¼–ç å™¨å‡½æ•°
 int32_t Servo_ReadEncoder(void)
 {
-    uint8_t rx[8] = {0}; // ½ÓÊÕ»º³åÇø£¨µç»ú 0x30 »Ø¸´¹Ì¶¨ 8 ×Ö½Ú£©
-    uint8_t b = 0; // µ¥×Ö½ÚÁÙÊ±±äÁ¿
-    uint32_t t0 = HAL_GetTick(); // ÆğÊ¼Ê±¿Ì£¬ÓÃÓÚ×Ü³¬Ê±
-    uint8_t sum = 0; // Ğ£ÑéºÍ
+    uint8_t rx[8] = {0}; // æ¥æ”¶ç¼“å†²åŒºï¼ˆç”µæœº 0x30 å›å¤å›ºå®š 8 å­—èŠ‚ï¼‰
+    uint8_t b = 0; // å•å­—èŠ‚ä¸´æ—¶å˜é‡
+    uint32_t t0 = HAL_GetTick(); // èµ·å§‹æ—¶åˆ»ï¼Œç”¨äºæ€»è¶…æ—¶
+    uint8_t sum = 0; // æ ¡éªŒå’Œ
 
-    uint8_t flush_tmp = 0; // Çå¿Õ»º³åÇø²ĞÁô×Ö½Ú
-    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // ÇåµôÉÏ´Î0xFDµÄ"ÔËĞĞÍê³É"»Ø¸´
+    uint8_t flush_tmp = 0; // æ¸…ç©ºç¼“å†²åŒºæ®‹ç•™å­—èŠ‚
+    while (HAL_UART_Receive(&huart1, &flush_tmp, 1, 5) == HAL_OK) {} // æ¸…æ‰ä¸Šæ¬¡0xFDçš„"è¿è¡Œå®Œæˆ"å›å¤
 
-    Servo_SendCommand(SERVO_FUNC_READ_ENC, NULL, 0); // ·¢ËÍ¶ÁÈ¡±àÂëÆ÷ÃüÁî
+    Servo_SendCommand(SERVO_FUNC_READ_ENC, NULL, 0); // å‘é€è¯»å–ç¼–ç å™¨å‘½ä»¤
 
-    // Öğ×Ö½ÚÕÒÖ¡Í· 0xE0£¬¶ªÆú²ĞÁôÀ¬»ø×Ö½Ú£¨±ÈÒ»´ÎĞÔ¶Á 8 ×Ö½Ú¸ü¿¹´íÎ»£©
+    // é€å­—èŠ‚æ‰¾å¸§å¤´ 0xE0ï¼Œä¸¢å¼ƒæ®‹ç•™åƒåœ¾å­—èŠ‚ï¼ˆæ¯”ä¸€æ¬¡æ€§è¯» 8 å­—èŠ‚æ›´æŠ—é”™ä½ï¼‰
     while (1)
     {
         if (HAL_UART_Receive(&huart1, &b, 1, 10) == HAL_OK)
         {
             if (b == SERVO_ADDR) { rx[0] = b; break; }
         }
-        if (HAL_GetTick() - t0 > 200) // 200ms ÄÚÃ»ÕÒµ½Ö¡Í·£¬³¬Ê±
+        if (HAL_GetTick() - t0 > 200) // 200ms å†…æ²¡æ‰¾åˆ°å¸§å¤´ï¼Œè¶…æ—¶
         {
             return -1;
         }
     }
 
-    HAL_StatusTypeDef status = HAL_UART_Receive(&huart1, &rx[1], 7, 100); // Ö¡Í·ºó¶ÁÊ£Óà 7 ×Ö½Ú
+    HAL_StatusTypeDef status = HAL_UART_Receive(&huart1, &rx[1], 7, 100); // å¸§å¤´åè¯»å‰©ä½™ 7 å­—èŠ‚
 
     if (status != HAL_OK)
-        return -1; // Ã»ÊÕµ½ 7 ×Ö½Ú£¬³¬Ê±
+        return -1; // æ²¡æ”¶åˆ° 7 å­—èŠ‚ï¼Œè¶…æ—¶
 
-    // CRC Ğ£Ñé£ºÇ° 7 ×Ö½ÚÇóºÍÈ¡µÍ 8 Î»£¬Ó¦µÈÓÚµÚ 8 ×Ö½Ú
+    // CRC æ ¡éªŒï¼šå‰ 7 å­—èŠ‚æ±‚å’Œå–ä½ 8 ä½ï¼Œåº”ç­‰äºç¬¬ 8 å­—èŠ‚
     sum = 0;
     for (uint8_t i = 0; i < 7; i++) sum += rx[i];
     if (sum != rx[7])
@@ -111,20 +111,20 @@ int32_t Servo_ReadEncoder(void)
 
     uint16_t value = (uint16_t)((rx[5] << 8) | rx[6]);
     int32_t carry = (int32_t)(((uint32_t)rx[1] << 24) | ((uint32_t)rx[2] << 16) | ((uint32_t)rx[3] << 8) | (uint32_t)rx[4]);
-    return carry * 65536 + (int32_t)value; // ·µ»ØÍêÕû¶àÈ¦Î»ÖÃ£¨carry*16384+value£©
+    return carry * 65536 + (int32_t)value; // è¿”å›å®Œæ•´å¤šåœˆä½ç½®ï¼ˆcarry*65536+valueï¼‰
 }
 
-// 42C µç»úÎ»ÖÃ¿ØÖÆº¯Êı£¨Ïà¶ÔÎ»ÖÃÄ£Ê½£¬0xFD£©
+// 42C ç”µæœºä½ç½®æ§åˆ¶å‡½æ•°ï¼ˆç›¸å¯¹ä½ç½®æ¨¡å¼ï¼Œ0xFDï¼‰
 void Servo_SetPosition(uint8_t dir, uint8_t speed, int32_t step)
 {
-    uint8_t dummy[3] = {0}; // ½ÓÊÕÓ¦´ğµÄ»º³åÇø
+    uint8_t dummy[3] = {0}; // æ¥æ”¶åº”ç­”çš„ç¼“å†²åŒº
     uint8_t data[5] = {0};
-    data[0] = (dir << 7) | (speed & 0x7F); // ·½Ïò(bit7) + ËÙ¶È(µÍ7Î»)
-    data[1] = (step >> 24) & 0xFF;         // step ¸ß×Ö½Ú£¨´ó¶Ë£©
+    data[0] = (dir << 7) | (speed & 0x7F); // æ–¹å‘(bit7) + é€Ÿåº¦(ä½7ä½)
+    data[1] = (step >> 24) & 0xFF;         // step é«˜å­—èŠ‚ï¼ˆå¤§ç«¯ï¼‰
     data[2] = (step >> 16) & 0xFF;
     data[3] = (step >> 8) & 0xFF;
-    data[4] = step & 0xFF; // step µÍ×Ö½Ú
-    Servo_SendCommand(SERVO_FUNC_POS, data, 5); // ·¢ËÍÎ»ÖÃ¿ØÖÆÃüÁî
-    HAL_UART_Receive(&huart1, dummy, 3, 100); // µÈ´ı»Ø¸´
+    data[4] = step & 0xFF; // step ä½å­—èŠ‚
+    Servo_SendCommand(SERVO_FUNC_POS, data, 5); // å‘é€ä½ç½®æ§åˆ¶å‘½ä»¤
+    HAL_UART_Receive(&huart1, dummy, 3, 100); // ç­‰å¾…å›å¤
 }
 

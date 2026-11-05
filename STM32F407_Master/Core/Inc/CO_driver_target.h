@@ -34,104 +34,104 @@
 /* Stack configuration override default values. For more information see file CO_config.h. */
 
 /* Basic definitions. If big endian, CO_SWAP_xx macros must swap bytes. */
-#define CO_LITTLE_ENDIAN 1 /* Ğ¡¶Ë×Ö½ÚĞò */
+#define CO_LITTLE_ENDIAN 1 /* å°ç«¯å­—èŠ‚åº */
 #define CO_SWAP_16(x) x
 #define CO_SWAP_32(x) x
 #define CO_SWAP_64(x) x
 /* NULL is defined in stddef.h */
 /* true and false are defined in stdbool.h */
 /* int8_t to uint64_t are defined in stdint.h */
-typedef uint_fast8_t bool_t; /* ²¼¶ûÀàĞÍ */
-typedef float float32_t; /* 32Î»¸¡µãÊı */
-typedef double float64_t; /* 64Î»¸¡µãÊı */
+typedef uint_fast8_t bool_t; /* å¸ƒå°”ç±»å‹ */
+typedef float float32_t; /* 32ä½æµ®ç‚¹æ•° */
+typedef double float64_t; /* 64ä½æµ®ç‚¹æ•° */
 
-/* ¹Ø±ÕĞèÒª¶îÍâÎÄ¼şµÄÄ£¿é */
-#define CO_CONFIG_STORAGE 0 /* ¹Ø±Õ´æ´¢Ä£¿é */
-#define CO_CONFIG_LEDS 0 /* ¹Ø±ÕLEDÄ£¿é */
-#define CO_CONFIG_LSS 0 /* ¹Ø±ÕLSSÄ£¿é */
+/* å…³é—­éœ€è¦é¢å¤–æ–‡ä»¶çš„æ¨¡å— */
+#define CO_CONFIG_STORAGE 0 /* å…³é—­å­˜å‚¨æ¨¡å— */
+#define CO_CONFIG_LEDS 0 /* å…³é—­LEDæ¨¡å— */
+#define CO_CONFIG_LSS 0 /* å…³é—­LSSæ¨¡å— */
 
-/*¶¨ÒåCAN½ÓÊÕÖ¡½á¹¹ÌåCO_CANrxMsg_t*/
-/* 11Î»±ê×¼ID  */
+/*å®šä¹‰CANæ¥æ”¶å¸§ç»“æ„ä½“CO_CANrxMsg_t*/
+/* 11ä½æ ‡å‡†ID  */
 
 typedef struct {
-    uint16_t ident; /* 11Î»±ê×¼ID  */
-    uint8_t DLC; /* Ö¡µÄÊı¾İ³¤¶È */
-    uint8_t data[8]; /* Ö¡µÄÊı¾İ */
+    uint16_t ident; /* 11ä½æ ‡å‡†ID  */
+    uint8_t DLC; /* å¸§çš„æ•°æ®é•¿åº¦ */
+    uint8_t data[8]; /* å¸§çš„æ•°æ® */
 } CO_CANrxMsg_t;
 
 /* Access to received CAN frame */
-#define CO_CANrxMsg_readIdent(msg) ((uint16_t)(((CO_CANrxMsg_t*)msg)->ident)) /*È¡³öÖ¡µÄ ID  */
-#define CO_CANrxMsg_readDLC(msg)   ((uint8_t)(((CO_CANrxMsg_t*)msg)->DLC)) /*È¡³öÖ¡µÄÊı¾İ³¤¶È  */
-#define CO_CANrxMsg_readData(msg)  ((const uint8_t*)(((CO_CANrxMsg_t*)msg)->data)) /*È¡³öÖ¡Êı×éµÄÖ¸ÕëµØÖ·  */
+#define CO_CANrxMsg_readIdent(msg) ((uint16_t)(((CO_CANrxMsg_t*)msg)->ident)) /*å–å‡ºå¸§çš„ ID  */
+#define CO_CANrxMsg_readDLC(msg)   ((uint8_t)(((CO_CANrxMsg_t*)msg)->DLC)) /*å–å‡ºå¸§çš„æ•°æ®é•¿åº¦  */
+#define CO_CANrxMsg_readData(msg)  ((const uint8_t*)(((CO_CANrxMsg_t*)msg)->data)) /*å–å‡ºå¸§æ•°ç»„çš„æŒ‡é’ˆåœ°å€  */
 
 /* Received frame object */
 typedef struct {
-    uint16_t ident; /* 11Î»±ê×¼ID  */
-    uint16_t mask; /* ½ÓÊÕ¹ıÂËÆ÷ÑÚÂë */
-    void* object; /* ¶ÔÏóÖ¸Õë */
-    void (*CANrx_callback)(void* object, void* message); /* ½ÓÊÕ»Øµ÷º¯ÊıÖ¸Õë */
-} CO_CANrx_t; /* ½ÓÊÕÖ¡¶ÔÏó */
+    uint16_t ident; /* 11ä½æ ‡å‡†ID  */
+    uint16_t mask; /* æ¥æ”¶è¿‡æ»¤å™¨æ©ç  */
+    void* object; /* å¯¹è±¡æŒ‡é’ˆ */
+    void (*CANrx_callback)(void* object, void* message); /* æ¥æ”¶å›è°ƒå‡½æ•°æŒ‡é’ˆ */
+} CO_CANrx_t; /* æ¥æ”¶å¸§å¯¹è±¡ */
 
 /* Transmit frame object */
 typedef struct {
-    uint32_t ident; /* 29Î»À©Õ¹ID  */
-    uint8_t DLC; /* Ö¡µÄÊı¾İ³¤¶È */
-    uint8_t data[8]; /* Ö¡µÄÊı¾İ */
-    volatile bool_t bufferFull; /* ·¢ËÍ»º³åÇøÊÇ·ñÒÑÂú */
-    volatile bool_t syncFlag; /* ·¢ËÍÍ¬²½±êÖ¾Î» */
+    uint32_t ident; /* 29ä½æ‰©å±•ID  */
+    uint8_t DLC; /* å¸§çš„æ•°æ®é•¿åº¦ */
+    uint8_t data[8]; /* å¸§çš„æ•°æ® */
+    volatile bool_t bufferFull; /* å‘é€ç¼“å†²åŒºæ˜¯å¦å·²æ»¡ */
+    volatile bool_t syncFlag; /* å‘é€åŒæ­¥æ ‡å¿—ä½ */
 } CO_CANtx_t;
 
 /* CAN module object */
 typedef struct {
-    void* CANptr; /* CAN¾ä±ú */
-    CO_CANrx_t* rxArray; /* ½ÓÊÕÖ¡Êı×é */
-    uint16_t rxSize; /* ½ÓÊÕÖ¡Êı×éµÄ´óĞ¡ */
-    CO_CANtx_t* txArray; /* ·¢ËÍÖ¡Êı×é */
-    uint16_t txSize; /* ·¢ËÍÖ¡Êı×éµÄ´óĞ¡ */
-    uint16_t CANerrorStatus; /* CAN´íÎó×´Ì¬ */
-    volatile bool_t CANnormal; /* CANÊÇ·ñÕı³£ */
-    volatile bool_t useCANrxFilters; /* ÊÇ·ñÊ¹ÓÃ½ÓÊÕ¹ıÂËÆ÷ */
-    volatile bool_t bufferInhibitFlag; /* ·¢ËÍ»º³åÇøÊÇ·ñÒÑ½ûÓÃ */
-    volatile bool_t firstCANtxMessage; /* ÊÇ·ñÊÇµÚÒ»¸ö·¢ËÍµÄCANÏûÏ¢ */
-    volatile uint16_t CANtxCount; /* ·¢ËÍµÄCANÏûÏ¢¼ÆÊı */
-    uint32_t errOld; /* ¾ÉµÄ´íÎóÂë */
+    void* CANptr; /* CANå¥æŸ„ */
+    CO_CANrx_t* rxArray; /* æ¥æ”¶å¸§æ•°ç»„ */
+    uint16_t rxSize; /* æ¥æ”¶å¸§æ•°ç»„çš„å¤§å° */
+    CO_CANtx_t* txArray; /* å‘é€å¸§æ•°ç»„ */
+    uint16_t txSize; /* å‘é€å¸§æ•°ç»„çš„å¤§å° */
+    uint16_t CANerrorStatus; /* CANé”™è¯¯çŠ¶æ€ */
+    volatile bool_t CANnormal; /* CANæ˜¯å¦æ­£å¸¸ */
+    volatile bool_t useCANrxFilters; /* æ˜¯å¦ä½¿ç”¨æ¥æ”¶è¿‡æ»¤å™¨ */
+    volatile bool_t bufferInhibitFlag; /* å‘é€ç¼“å†²åŒºæ˜¯å¦å·²ç¦ç”¨ */
+    volatile bool_t firstCANtxMessage; /* æ˜¯å¦æ˜¯ç¬¬ä¸€ä¸ªå‘é€çš„CANæ¶ˆæ¯ */
+    volatile uint16_t CANtxCount; /* å‘é€çš„CANæ¶ˆæ¯è®¡æ•° */
+    uint32_t errOld; /* æ—§çš„é”™è¯¯ç  */
 } CO_CANmodule_t;
 
-extern void CO_CANinterrupt(CO_CANmodule_t* CANmodule); /* CANÖĞ¶Ï´¦Àíº¯Êı */
+extern void CO_CANinterrupt(CO_CANmodule_t* CANmodule); /* CANä¸­æ–­å¤„ç†å‡½æ•° */
 /* Data storage object for one entry */
 typedef struct {
-    void* addr; /* Êı¾İ´æ´¢µØÖ· */
-    size_t len; /* Êı¾İ´æ´¢³¤¶È */
-    uint8_t subIndexOD; /* ×ÓË÷Òı£¬ÓÃÓÚ·ÃÎÊObject Dictionary */
-    uint8_t attr; /* Êı¾İ´æ´¢ÊôĞÔ */
+    void* addr; /* æ•°æ®å­˜å‚¨åœ°å€ */
+    size_t len; /* æ•°æ®å­˜å‚¨é•¿åº¦ */
+    uint8_t subIndexOD; /* å­ç´¢å¼•ï¼Œç”¨äºè®¿é—®Object Dictionary */
+    uint8_t attr; /* æ•°æ®å­˜å‚¨å±æ€§ */
     /* Additional variables (target specific) */
-    void* addrNV; /* ·ÇÒ×Ê§ĞÔ´æ´¢µØÖ· */
+    void* addrNV; /* éæ˜“å¤±æ€§å­˜å‚¨åœ°å€ */
 } CO_storage_entry_t;
 
 /* (un)lock critical section in CO_CANsend() */
-#define CO_LOCK_CAN_SEND(CAN_MODULE) /* Ëø¶¨CAN·¢ËÍÁÙ½çÇø */
-#define CO_UNLOCK_CAN_SEND(CAN_MODULE) /* ½âËøCAN·¢ËÍÁÙ½çÇø */
+#define CO_LOCK_CAN_SEND(CAN_MODULE) /* é”å®šCANå‘é€ä¸´ç•ŒåŒº */
+#define CO_UNLOCK_CAN_SEND(CAN_MODULE) /* è§£é”CANå‘é€ä¸´ç•ŒåŒº */
 
 /* (un)lock critical section in CO_errorReport() or CO_errorReset() */
-#define CO_LOCK_EMCY(CAN_MODULE) /* Ëø¶¨½ô¼±´íÎó´¦ÀíÁÙ½çÇø */
-#define CO_UNLOCK_EMCY(CAN_MODULE) /* ½âËø½ô¼±´íÎó´¦ÀíÁÙ½çÇø */
+#define CO_LOCK_EMCY(CAN_MODULE) /* é”å®šç´§æ€¥é”™è¯¯å¤„ç†ä¸´ç•ŒåŒº */
+#define CO_UNLOCK_EMCY(CAN_MODULE) /* è§£é”ç´§æ€¥é”™è¯¯å¤„ç†ä¸´ç•ŒåŒº */
 
 /* (un)lock critical section when accessing Object Dictionary */
-#define CO_LOCK_OD(CAN_MODULE) /* Ëø¶¨Object DictionaryÁÙ½çÇø */
-#define CO_UNLOCK_OD(CAN_MODULE) /* ½âËøObject DictionaryÁÙ½çÇø */
+#define CO_LOCK_OD(CAN_MODULE) /* é”å®šObject Dictionaryä¸´ç•ŒåŒº */
+#define CO_UNLOCK_OD(CAN_MODULE) /* è§£é”Object Dictionaryä¸´ç•ŒåŒº */
 
 /* Synchronization between CAN receive and data processing threads. */
-#define CO_MemoryBarrier() /* ÄÚ´æÆÁÕÏ */
-#define CO_FLAG_READ(rxNew) ((rxNew) != NULL) /* ¶ÁÈ¡½ÓÊÕĞÂÊı¾İ±êÖ¾Î» */
-#define CO_FLAG_SET(rxNew)   /* ÉèÖÃ½ÓÊÕĞÂÊı¾İ±êÖ¾Î» */                                                                                           \
+#define CO_MemoryBarrier() /* å†…å­˜å±éšœ */
+#define CO_FLAG_READ(rxNew) ((rxNew) != NULL) /* è¯»å–æ¥æ”¶æ–°æ•°æ®æ ‡å¿—ä½ */
+#define CO_FLAG_SET(rxNew)   /* è®¾ç½®æ¥æ”¶æ–°æ•°æ®æ ‡å¿—ä½ */                                                                                           \
     {                                                                                                                  \
         CO_MemoryBarrier();                                                                                            \
-        rxNew = (void*)1L; /* ÉèÖÃ½ÓÊÕĞÂÊı¾İ±êÖ¾Î»ÎªÒÑ½ÓÊÕ */                                                                                             \
+        rxNew = (void*)1L; /* è®¾ç½®æ¥æ”¶æ–°æ•°æ®æ ‡å¿—ä½ä¸ºå·²æ¥æ”¶ */                                                                                             \
     }
-#define CO_FLAG_CLEAR(rxNew) /* Çå³ı½ÓÊÕĞÂÊı¾İ±êÖ¾Î» */                                                                                           \
+#define CO_FLAG_CLEAR(rxNew) /* æ¸…é™¤æ¥æ”¶æ–°æ•°æ®æ ‡å¿—ä½ */                                                                                           \
     {                                                                                                                  \
         CO_MemoryBarrier();                                                                                            \
-        rxNew = NULL; /* Çå³ı½ÓÊÕĞÂÊı¾İ±êÖ¾Î» */                                                                                                  \
+        rxNew = NULL; /* æ¸…é™¤æ¥æ”¶æ–°æ•°æ®æ ‡å¿—ä½ */                                                                                                  \
     }
 
 #ifdef __cplusplus

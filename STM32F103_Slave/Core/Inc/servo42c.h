@@ -1,21 +1,21 @@
-// 42C µç»ú¿ØÖÆÍ·ÎÄ¼ş Í·ÎÄ¼ş±£»¤
+// 42C ç”µæœºæ§åˆ¶å¤´æ–‡ä»¶ å¤´æ–‡ä»¶ä¿æŠ¤
 #ifndef __SERVO42C_H
 #define __SERVO42C_H
 
 #include "main.h"
-//ºê¶¨Òå
-#define SERVO_ADDR 0xE0 // 42C µç»úµØÖ·
-#define SERVO_FUNC_ENABLE 0xF3 // 42C µç»úÊ¹ÄÜ¹¦ÄÜ
-#define SERVO_FUNC_SPEED 0xF6 // 42C µç»úËÙ¶È¿ØÖÆ¹¦ÄÜ
-#define SERVO_FUNC_STOP 0xF7 // 42C µç»úÍ£Ö¹¹¦ÄÜ
-#define SERVO_FUNC_READ_ENC 0x30 // 42C µç»ú¶ÁÈ¡±àÂëÆ÷¹¦ÄÜ
-#define SERVO_FUNC_POS 0xFD // 42C µç»úÎ»ÖÃ¿ØÖÆ¹¦ÄÜ
-#define SERVO_FUNC_SET_ZERO 0x3F // 42C ÖÃÁã¹¦ÄÜ£¨°Ñµ±Ç°Î»ÖÃÉèÎªÁã£©
-//º¯ÊıÉùÃ÷
-void Servo_Enable(void); // 42C µç»úÊ¹ÄÜº¯Êı
-void Servo_Stop(void); // 42C µç»úÍ£Ö¹º¯Êı
-void Servo_SetSpeed(uint8_t dir, uint8_t speed); // 42C µç»úËÙ¶È¿ØÖÆº¯Êı
-int32_t Servo_ReadEncoder(void); // 42C µç»ú¶ÁÈ¡±àÂëÆ÷º¯Êı
-void Servo_SetPosition(uint8_t dir, uint8_t speed, int32_t step); // 42C µç»úÎ»ÖÃ¿ØÖÆº¯Êı
+//å®å®šä¹‰
+#define SERVO_ADDR 0xE0 // 42C ç”µæœºåœ°å€
+#define SERVO_FUNC_ENABLE 0xF3 // 42C ç”µæœºä½¿èƒ½åŠŸèƒ½
+#define SERVO_FUNC_SPEED 0xF6 // 42C ç”µæœºé€Ÿåº¦æ§åˆ¶åŠŸèƒ½
+#define SERVO_FUNC_STOP 0xF7 // 42C ç”µæœºåœæ­¢åŠŸèƒ½
+#define SERVO_FUNC_READ_ENC 0x30 // 42C ç”µæœºè¯»å–ç¼–ç å™¨åŠŸèƒ½
+#define SERVO_FUNC_POS 0xFD // 42C ç”µæœºä½ç½®æ§åˆ¶åŠŸèƒ½
+#define SERVO_FUNC_SET_ZERO 0x3F // 42C ç½®é›¶åŠŸèƒ½ï¼ˆæŠŠå½“å‰ä½ç½®è®¾ä¸ºé›¶ï¼‰
+//å‡½æ•°å£°æ˜
+void Servo_Enable(void); // 42C ç”µæœºä½¿èƒ½å‡½æ•°
+void Servo_Stop(void); // 42C ç”µæœºåœæ­¢å‡½æ•°
+void Servo_SetSpeed(uint8_t dir, uint8_t speed); // 42C ç”µæœºé€Ÿåº¦æ§åˆ¶å‡½æ•°
+int32_t Servo_ReadEncoder(void); // 42C ç”µæœºè¯»å–ç¼–ç å™¨å‡½æ•°
+void Servo_SetPosition(uint8_t dir, uint8_t speed, int32_t step); // 42C ç”µæœºä½ç½®æ§åˆ¶å‡½æ•°
 
 #endif

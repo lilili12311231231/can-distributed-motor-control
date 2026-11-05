@@ -1,15 +1,15 @@
-// PID ¿ØÖÆÆ÷Í·ÎÄ¼þ
+// PID æŽ§åˆ¶å™¨å¤´æ–‡ä»¶
 #ifndef __PID_H
 #define __PID_H
 
 #include "main.h"
 
-// PID ÏµÊý£¨¶¨ÒåÔÚ pid.c£¬´Ë´¦Îª extern ÉùÃ÷£©
+// PID ç³»æ•°ï¼ˆå®šä¹‰åœ¨ pid.cï¼Œæ­¤å¤„ä¸º extern å£°æ˜Žï¼‰
 extern float Kp;
 extern float Ki;
 extern float Kd;
 
-// PID º¯Êý
+// PID å‡½æ•°
 float PID_Inc(float err);
 
 #endif

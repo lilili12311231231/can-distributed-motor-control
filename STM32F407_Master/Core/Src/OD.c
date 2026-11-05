@@ -202,8 +202,8 @@ OD_ATTR_RAM OD_RAM_t OD_RAM = {
         .COB_IDClientToServerRx = 0x00000600,
         .COB_IDServerToClientTx = 0x00000580
     },
-    .x2000_targetSpeed = 0, // Ä¿±ê×ªËÙ£¨Ö÷·¢£¬´Ó»úÊÕ£©
-    .x2001_actualSpeed = 0, // Êµ¼Ê×ªËÙ£¨Ö÷·¢
+    .x2000_targetSpeed = 0, // ç›®æ ‡è½¬é€Ÿï¼ˆä¸»å‘ï¼Œä»æœºæ”¶ï¼‰
+    .x2001_actualSpeed = 0, // å®é™…è½¬é€Ÿï¼ˆä¸»å‘
 };
 
 
@@ -245,8 +245,8 @@ typedef struct {
     OD_obj_record_t o_1A01_TPDOMappingParameter[9];
     OD_obj_record_t o_1A02_TPDOMappingParameter[9];
     OD_obj_record_t o_1A03_TPDOMappingParameter[9];
-    OD_obj_var_t o_2000_targetSpeed;  // Ä¿±ê×ªËÙ£¨Ö÷·¢£¬´Ó»úÊÕ£©
-    OD_obj_var_t o_2001_actualSpeed; // Êµ¼Ê×ªËÙ£¨Ö÷·¢£¬´Ó»úÊÕ£©
+    OD_obj_var_t o_2000_targetSpeed;  // ç›®æ ‡è½¬é€Ÿï¼ˆä¸»å‘ï¼Œä»æœºæ”¶ï¼‰
+    OD_obj_var_t o_2001_actualSpeed; // å®é™…è½¬é€Ÿï¼ˆä¸»å‘ï¼Œä»æœºæ”¶ï¼‰
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {

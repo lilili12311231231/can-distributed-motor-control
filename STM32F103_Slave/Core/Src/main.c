@@ -21,8 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "servo42c.h" // °üº¬ 42C µç»ú¿ØÖÆÍ·ÎÄ¼ş
-#include "pid.h"      // °üº¬ PID ¿ØÖÆÆ÷Í·ÎÄ¼ş
+#include "servo42c.h" // åŒ…å« 42C ç”µæœºæ§åˆ¶å¤´æ–‡ä»¶
+#include "pid.h"      // åŒ…å« PID æ§åˆ¶å™¨å¤´æ–‡ä»¶
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,11 +46,11 @@ CAN_HandleTypeDef hcan;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-int32_t target_pos = 32768;    // Ä¿±êÆ«ÒÆ£¨´Ó»ØÁãµãÆğ£©£ºÊä³ö 180¡ã=8192 ¼ÆÊı£¨Êµ²â¼õËÙ±È1:1£©
-float speed = 0.0f;           // µ±Ç°ËÙ¶ÈÀÛ¼ÓÆ÷
-int32_t encoder_pos = 0;          // ±àÂëÆ÷Î»ÖÃ£¨Ìáµ½È«¾Ö£¬·½±ã watch ¹Û²ì£©
-int32_t home_full = 0;      // »ØÁã²Î¿¼Î»ÖÃ£¨°´°´¼üÊ±¼ÇÂ¼µÄ±àÂëÆ÷ÍêÕûÎ»ÖÃ£©
-uint8_t new_target_flag = 0;  // Ä¿±ê±êÖ¾Î»£¬1=ÊÕµ½ĞÂÄ¿±ê
+int32_t target_pos = 32768;    // ç›®æ ‡åç§»ï¼ˆä»å›é›¶ç‚¹èµ·ï¼‰ï¼šè¾“å‡º 180Â°=8192 è®¡æ•°ï¼ˆå®æµ‹å‡é€Ÿæ¯”1:1ï¼‰
+float speed = 0.0f;           // å½“å‰é€Ÿåº¦ç´¯åŠ å™¨
+int32_t encoder_pos = 0;          // ç¼–ç å™¨ä½ç½®ï¼ˆæåˆ°å…¨å±€ï¼Œæ–¹ä¾¿ watch è§‚å¯Ÿï¼‰
+int32_t home_full = 0;      // å›é›¶å‚è€ƒä½ç½®ï¼ˆæŒ‰æŒ‰é”®æ—¶è®°å½•çš„ç¼–ç å™¨å®Œæ•´ä½ç½®ï¼‰
+uint8_t new_target_flag = 0;  // ç›®æ ‡æ ‡å¿—ä½ï¼Œ1=æ”¶åˆ°æ–°ç›®æ ‡
 #define HOME_BUTTON_Pin GPIO_PIN_0
 #define HOME_BUTTON_GPIO_Port GPIOA
 /* USER CODE END PV */
@@ -102,96 +102,96 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  CAN_FilterTypeDef sFilterConfig; // CAN ¹ıÂËÆ÷ÅäÖÃ½á¹¹Ìå
-  sFilterConfig.FilterBank = 0; // ´Ó 0 ¿ªÊ¼ÂË²¨Æ÷
-  sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK; // ¹ıÂËÆ÷Ä£Ê½
-  sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT; // ¹ıÂËÆ÷¹æÄ£
-  sFilterConfig.FilterIdHigh = 0x181 << 5; // ¸ßID×Ö½Ú
-  sFilterConfig.FilterIdLow = 0x0000; // µÍID×Ö½Ú
-  sFilterConfig.FilterMaskIdHigh = 0xFFFF; // ¸ßÑÚÂëID×Ö½Ú
-  sFilterConfig.FilterMaskIdLow = 0x0000; // µÍÑÚÂëID×Ö½Ú
-  sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO0; // FIFO ·ÖÅä
-  sFilterConfig.FilterActivation = ENABLE; // ¹ıÂËÆ÷¼¤»î
-  sFilterConfig.SlaveStartFilterBank = 14; // µ¥ CAN ÓÃ²»µ½£¬Ìî 14
+  CAN_FilterTypeDef sFilterConfig; // CAN è¿‡æ»¤å™¨é…ç½®ç»“æ„ä½“
+  sFilterConfig.FilterBank = 0; // ä» 0 å¼€å§‹æ»¤æ³¢å™¨
+  sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK; // è¿‡æ»¤å™¨æ¨¡å¼
+  sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT; // è¿‡æ»¤å™¨è§„æ¨¡
+  sFilterConfig.FilterIdHigh = 0x181 << 5; // é«˜IDå­—èŠ‚
+  sFilterConfig.FilterIdLow = 0x0000; // ä½IDå­—èŠ‚
+  sFilterConfig.FilterMaskIdHigh = 0xFFFF; // é«˜æ©ç IDå­—èŠ‚
+  sFilterConfig.FilterMaskIdLow = 0x0000; // ä½æ©ç IDå­—èŠ‚
+  sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO0; // FIFO åˆ†é…
+  sFilterConfig.FilterActivation = ENABLE; // è¿‡æ»¤å™¨æ¿€æ´»
+  sFilterConfig.SlaveStartFilterBank = 14; // å• CAN ç”¨ä¸åˆ°ï¼Œå¡« 14
 
-  HAL_CAN_ConfigFilter(&hcan, &sFilterConfig); // ÅäÖÃ CAN ¹ıÂËÆ÷
-  HAL_CAN_Start(&hcan); // Æô¶¯ CAN
-  HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); // Ê¹ÄÜ½ÓÊÕÖĞ¶Ï
-  HAL_Delay(2000);   // µÈ SERVO42C Æô¶¯ 2 Ãë
-  Servo_Enable(); // Ê¹ÄÜ 42C µç»ú
+  HAL_CAN_ConfigFilter(&hcan, &sFilterConfig); // é…ç½® CAN è¿‡æ»¤å™¨
+  HAL_CAN_Start(&hcan); // å¯åŠ¨ CAN
+  HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING); // ä½¿èƒ½æ¥æ”¶ä¸­æ–­
+  HAL_Delay(2000);   // ç­‰ SERVO42C å¯åŠ¨ 2 ç§’
+  Servo_Enable(); // ä½¿èƒ½ 42C ç”µæœº
 
 
-  // ===== ÊÖ¶¯»ØÁã =====
-  // ÉÏµçºó£ºÊÖ¶¯°ÑÊä³öÖá¶ÔÆëµ½ÎïÀí 0¡ã ±ê¼Ç£¬È»ºó°´ PA0 °´¼ü£¨°´ÏÂ=µÍµçÆ½£©
+  // ===== æ‰‹åŠ¨å›é›¶ =====
+  // ä¸Šç”µåï¼šæ‰‹åŠ¨æŠŠè¾“å‡ºè½´å¯¹é½åˆ°ç‰©ç† 0Â° æ ‡è®°ï¼Œç„¶åæŒ‰ PA0 æŒ‰é”®ï¼ˆæŒ‰ä¸‹=ä½ç”µå¹³ï¼‰
   while (HAL_GPIO_ReadPin(HOME_BUTTON_GPIO_Port, HOME_BUTTON_Pin) == GPIO_PIN_SET)
   {
-      // µÈ´ı°´¼ü°´ÏÂ
+      // ç­‰å¾…æŒ‰é”®æŒ‰ä¸‹
   }
-  HAL_Delay(50);          // °´¼üÏû¶¶
-  encoder_pos = Servo_ReadEncoder();  // ¶Áµ±Ç°Î»ÖÃ£¨×÷Îª home ²Î¿¼£©
-  if (encoder_pos < 0) encoder_pos = Servo_ReadEncoder();  // Ê§°ÜÖØ¶ÁÒ»´Î
-  home_full = encoder_pos;            // ¼ÇÂ¼ home Î»ÖÃ£¨ÍêÕû¶àÈ¦Î»ÖÃ£©
-  new_target_flag = 1;    // ´¥·¢Ò»´Î¶¨Î»£¨»Øµ½ target_pos = Êä³ö 180¡ã£©
-IWDG->KR = 0x5555; // Ê¹ÄÜ IWDG Ğ´Èë
-  IWDG->PR = 4; // ÉèÖÃÔ¤·ÖÆµÆ÷Îª 4
-  IWDG->RLR = 1249; // ÉèÖÃÖØ×°ÔØ¼Ä´æÆ÷Îª 1249
-  IWDG->KR = 0xCCCC; // Æô¶¯¶ÀÁ¢¿´ÃÅ¹·
+  HAL_Delay(50);          // æŒ‰é”®æ¶ˆæŠ–
+  encoder_pos = Servo_ReadEncoder();  // è¯»å½“å‰ä½ç½®ï¼ˆä½œä¸º home å‚è€ƒï¼‰
+  if (encoder_pos < 0) encoder_pos = Servo_ReadEncoder();  // å¤±è´¥é‡è¯»ä¸€æ¬¡
+  home_full = encoder_pos;            // è®°å½• home ä½ç½®ï¼ˆå®Œæ•´å¤šåœˆä½ç½®ï¼‰
+  new_target_flag = 1;    // è§¦å‘ä¸€æ¬¡å®šä½ï¼ˆå›åˆ° target_pos = è¾“å‡º 180Â°ï¼‰
+IWDG->KR = 0x5555; // ä½¿èƒ½ IWDG å†™å…¥
+  IWDG->PR = 4; // è®¾ç½®é¢„åˆ†é¢‘å™¨ä¸º 4
+  IWDG->RLR = 1249; // è®¾ç½®é‡è£…è½½å¯„å­˜å™¨ä¸º 1249
+  IWDG->KR = 0xCCCC; // å¯åŠ¨ç‹¬ç«‹çœ‹é—¨ç‹—
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    IWDG->KR = 0xAAAA; // Î¹¹·£¬·ÀÖ¹¿´ÃÅ¹·¸´Î»
+    IWDG->KR = 0xAAAA; // å–‚ç‹—ï¼Œé˜²æ­¢çœ‹é—¨ç‹—å¤ä½
 
-    /* ÊÕµ½ĞÂÄ¿±ê±êÖ¾ -> Ö´ĞĞÒ»´Î¶¨Î» */
+    /* æ”¶åˆ°æ–°ç›®æ ‡æ ‡å¿— -> æ‰§è¡Œä¸€æ¬¡å®šä½ */
     if (new_target_flag == 1)
     {
-        new_target_flag = 0;                  // Çå±êÖ¾
-        encoder_pos = Servo_ReadEncoder();     // ¶Áµ±Ç°Î»ÖÃ
-        if (encoder_pos < 0) encoder_pos = Servo_ReadEncoder(); // ¶ÁÊ§°ÜÖØÊÔÒ»´Î
-        int32_t delta_enc = (home_full + target_pos) - encoder_pos;   // µ½Ä¿±êµÄ²îÖµ
-        int32_t delta_step = delta_enc * 25 / 512;       // »»Ëã³É²½Êı
-        uint8_t dir = 1;                       // ²ğ·ûºÅ
+        new_target_flag = 0;                  // æ¸…æ ‡å¿—
+        encoder_pos = Servo_ReadEncoder();     // è¯»å½“å‰ä½ç½®
+        if (encoder_pos < 0) encoder_pos = Servo_ReadEncoder(); // è¯»å¤±è´¥é‡è¯•ä¸€æ¬¡
+        int32_t delta_enc = (home_full + target_pos) - encoder_pos;   // åˆ°ç›®æ ‡çš„å·®å€¼
+        int32_t delta_step = delta_enc * 25 / 512;       // æ¢ç®—æˆæ­¥æ•°
+        uint8_t dir = 1;                       // æ‹†ç¬¦å·
         if (delta_step < 0) { dir = 0; delta_step = -delta_step; }
-        Servo_SetPosition(dir, 10, delta_step);  // ·¢¶¨Î»Ö¸Áî
-        HAL_Delay(500); // µÈµç»ú×ªÍê£¬±ÜÃâÔË¶¯ÆÚ¼ä¶Á±àÂëÆ÷´ò¶Ï¶¨Î»
+        Servo_SetPosition(dir, 10, delta_step);  // å‘å®šä½æŒ‡ä»¤
+        HAL_Delay(500); // ç­‰ç”µæœºè½¬å®Œï¼Œé¿å…è¿åŠ¨æœŸé—´è¯»ç¼–ç å™¨æ‰“æ–­å®šä½
     }
-     // HAL_GPIO_TogglePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin); // LED ĞÄÌøÔİÊ±Í£ÓÃ
-     // HAL_Delay(500); // ÍÏÂı PID Ñ­»·£¬ÏÈÈ¥µô
+     // HAL_GPIO_TogglePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin); // LED å¿ƒè·³æš‚æ—¶åœç”¨
+     // HAL_Delay(500); // æ‹–æ…¢ PID å¾ªç¯ï¼Œå…ˆå»æ‰
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-   // encoder_pos = Servo_ReadEncoder(); // ¶ÁÈ¡±àÂëÆ÷Öµ
+   // encoder_pos = Servo_ReadEncoder(); // è¯»å–ç¼–ç å™¨å€¼
    if (encoder_pos >= 0)
     {
-       // HAL_GPIO_WritePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin, GPIO_PIN_SET);   // ÊÕµ½-> LED ÁÁ
+       // HAL_GPIO_WritePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin, GPIO_PIN_SET);   // æ”¶åˆ°-> LED äº®
     }
     else
     {
-       // HAL_GPIO_WritePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin, GPIO_PIN_RESET); //Ã»ÊÕµ½ -> LED Ãğ
+       // HAL_GPIO_WritePin(User_Label___LED_GPIO_Port, User_Label___LED_Pin, GPIO_PIN_RESET); //æ²¡æ”¶åˆ° -> LED ç­
     }
     uint8_t encoder_data[8] = {0};
-    encoder_data[0] = (encoder_pos >> 24) & 0xFF; // ¸ßÎ»×Ö½Ú
-    encoder_data[1] = (encoder_pos >> 16) & 0xFF; // ÖĞÎ»×Ö½Ú
-    encoder_data[2] = (encoder_pos >> 8) & 0xFF; // ÖĞÎ»×Ö½Ú
-    encoder_data[3] = encoder_pos & 0xFF; // µÍÎ»×Ö½Ú
+    encoder_data[0] = (encoder_pos >> 24) & 0xFF; // é«˜ä½å­—èŠ‚
+    encoder_data[1] = (encoder_pos >> 16) & 0xFF; // ä¸­ä½å­—èŠ‚
+    encoder_data[2] = (encoder_pos >> 8) & 0xFF; // ä¸­ä½å­—èŠ‚
+    encoder_data[3] = encoder_pos & 0xFF; // ä½ä½å­—èŠ‚
 
     CAN_TxHeaderTypeDef tx_header;
-    tx_header.StdId = 0x201; // ±ê×¼ ID
+    tx_header.StdId = 0x201; // æ ‡å‡† ID
     tx_header.ExtId = 0; 
-    tx_header.IDE = CAN_ID_STD; // ±ê×¼ ID
-    tx_header.RTR = CAN_RTR_DATA; // Êı¾İÖ¡
-    tx_header.DLC = 4; // Êı¾İ³¤¶È
-    tx_header.TransmitGlobalTime = DISABLE; // ²»´«ÊäÈ«¾ÖÊ±¼ä´Á
+    tx_header.IDE = CAN_ID_STD; // æ ‡å‡† ID
+    tx_header.RTR = CAN_RTR_DATA; // æ•°æ®å¸§
+    tx_header.DLC = 4; // æ•°æ®é•¿åº¦
+    tx_header.TransmitGlobalTime = DISABLE; // ä¸ä¼ è¾“å…¨å±€æ—¶é—´æˆ³
 
     uint32_t tx_mailbox;
-    HAL_CAN_AddTxMessage(&hcan, &tx_header, encoder_data, &tx_mailbox); // ·¢ËÍ CAN ÏûÏ¢
+    HAL_CAN_AddTxMessage(&hcan, &tx_header, encoder_data, &tx_mailbox); // å‘é€ CAN æ¶ˆæ¯
 
-    // Î»ÖÃÄ£Ê½£º¶¨Î»½»¸ø SERVO42C ÄÚ²¿±Õ»·£¬MCU Ö»¶ÁÎ»ÖÃ·´À¡
-    //£¨target ÓÉ CAN ¸üĞÂÊ±£¬ÔÚÕâÀïÖØĞÂµ÷ÓÃ Servo_SetPosition£©
+    // ä½ç½®æ¨¡å¼ï¼šå®šä½äº¤ç»™ SERVO42C å†…éƒ¨é—­ç¯ï¼ŒMCU åªè¯»ä½ç½®åé¦ˆ
+    //ï¼ˆtarget ç”± CAN æ›´æ–°æ—¶ï¼Œåœ¨è¿™é‡Œé‡æ–°è°ƒç”¨ Servo_SetPositionï¼‰
 
-    HAL_Delay(50); // ÑÓÊ± 50ms
+    HAL_Delay(50); // å»¶æ—¶ 50ms
   }
   /* USER CODE END 3 */
 }
@@ -333,7 +333,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(User_Label___LED_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
-  /* ÊÖ¶¯»ØÁã°´¼ü PA0£ºÊäÈë+ÉÏÀ­£¨°´¼ü½Ó PA0 Óë GND£¬°´ÏÂÎªµÍµçÆ½£© */
+  /* æ‰‹åŠ¨å›é›¶æŒ‰é”® PA0ï¼šè¾“å…¥+ä¸Šæ‹‰ï¼ˆæŒ‰é”®æ¥ PA0 ä¸ GNDï¼ŒæŒ‰ä¸‹ä¸ºä½ç”µå¹³ï¼‰ */
   GPIO_InitStruct.Pin = HOME_BUTTON_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
@@ -350,10 +350,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
     HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData);
 
-    target_pos = (RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]; // ÊÕÄ¿±êÎ»ÖÃ
-    new_target_flag = 1;  // ÖÃ±êÖ¾£ºÓĞĞÂÄ¿±êÀ´ÁË
-    // ´¦Àí½ÓÊÕµ½µÄCANÊı¾İ
-    // ÀıÈç£º¸ù¾İRxHeader.StdIdÅĞ¶ÏÏûÏ¢ÀàĞÍ£¬²¢´¦ÀíRxDataÖĞµÄÊı¾İ
+    target_pos = (RxData[0] << 24) | (RxData[1] << 16) | (RxData[2] << 8) | RxData[3]; // æ”¶ç›®æ ‡ä½ç½®
+    new_target_flag = 1;  // ç½®æ ‡å¿—ï¼šæœ‰æ–°ç›®æ ‡æ¥äº†
+    // å¤„ç†æ¥æ”¶åˆ°çš„CANæ•°æ®
+    // ä¾‹å¦‚ï¼šæ ¹æ®RxHeader.StdIdåˆ¤æ–­æ¶ˆæ¯ç±»å‹ï¼Œå¹¶å¤„ç†RxDataä¸­çš„æ•°æ®
 }
 /* USER CODE END 4 */
 

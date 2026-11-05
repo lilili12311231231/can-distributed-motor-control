@@ -242,8 +242,8 @@ typedef struct {
         uint32_t COB_IDClientToServerRx;
         uint32_t COB_IDServerToClientTx;
     } x1200_SDOServerParameter;
-    int32_t x2000_targetSpeed; // Ä¿±ê×ªËÙ£¨Ö÷·¢£¬´Ó»úÊÕ£©
-    int32_t x2001_actualSpeed; // Êµ¼Ê×ªËÙ£¨Ö÷·¢£¬´Ó»úÊÕ£©
+    int32_t x2000_targetSpeed; // ç›®æ ‡è½¬é€Ÿï¼ˆä¸»å‘ï¼Œä»æœºæ”¶ï¼‰
+    int32_t x2001_actualSpeed; // å®é™…è½¬é€Ÿï¼ˆä¸»å‘ï¼Œä»æœºæ”¶ï¼‰
 } OD_RAM_t;
 
 #ifndef OD_ATTR_PERSIST_COMM

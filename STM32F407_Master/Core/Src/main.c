@@ -94,7 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_CAN_Start(&hcan1); /* Æô¶¯CAN£ºÍË³ö³õÊ¼»¯Ä£Ê½£¬½øÈëÕı³£Ä£Ê½ */
+  HAL_CAN_Start(&hcan1); /* å¯åŠ¨CANï¼šé€€å‡ºåˆå§‹åŒ–æ¨¡å¼ï¼Œè¿›å…¥æ­£å¸¸æ¨¡å¼ */
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,23 +105,23 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-  /* ÔİÊ±²»ÅÜ CANopen£¬¸ÄÓÃÂã CAN ·¢Ä¿±êÎ»ÖÃ¸ø F103 */
-  static uint32_t master_target = 16384;  // µÚÒ»¸öÄ¿±ê£º90 ¶È
+  /* æš‚æ—¶ä¸è·‘ CANopenï¼Œæ”¹ç”¨è£¸ CAN å‘ç›®æ ‡ä½ç½®ç»™ F103 */
+  static uint32_t master_target = 16384;  // ç¬¬ä¸€ä¸ªç›®æ ‡ï¼š90 åº¦
   static uint32_t last_switch = 0;
 
-  /* Ã¿ 3 ÃëÇĞ»»Ä¿±ê£¬ÇĞ»»Ê±Ö»·¢Ò»´Î£¨±ÜÃâ·´¸´·¢´ò¶Ï F103 ¶¨Î»£© */
+  /* æ¯ 3 ç§’åˆ‡æ¢ç›®æ ‡ï¼Œåˆ‡æ¢æ—¶åªå‘ä¸€æ¬¡ï¼ˆé¿å…åå¤å‘æ‰“æ–­ F103 å®šä½ï¼‰ */
   if (HAL_GetTick() - last_switch > 3000) {
       last_switch = HAL_GetTick();
       master_target = (master_target == 16384) ? 32768 : 16384;
 
       uint8_t pos_data[4];
-      pos_data[0] = (master_target >> 24) & 0xFF;  // ´ó¶Ë
+      pos_data[0] = (master_target >> 24) & 0xFF;  // å¤§ç«¯
       pos_data[1] = (master_target >> 16) & 0xFF;
       pos_data[2] = (master_target >> 8) & 0xFF;
       pos_data[3] = master_target & 0xFF;
 
       CAN_TxHeaderTypeDef tx_header;
-      tx_header.StdId = 0x181;            // F103 ÊÕÕâ¸ö ID
+      tx_header.StdId = 0x181;            // F103 æ”¶è¿™ä¸ª ID
       tx_header.ExtId = 0;
       tx_header.IDE = CAN_ID_STD;
       tx_header.RTR = CAN_RTR_DATA;
@@ -145,8 +145,8 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};  /* RCCÕñµ´Æ÷³õÊ¼»¯½á¹¹Ìå */
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};  /* RCCÊ±ÖÓ³õÊ¼»¯½á¹¹Ìå */
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};  /* RCCæŒ¯è¡å™¨åˆå§‹åŒ–ç»“æ„ä½“ */
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};  /* RCCæ—¶é’Ÿåˆå§‹åŒ–ç»“æ„ä½“ */
 
   /** Configure the main internal regulator output voltage
   */
@@ -156,38 +156,38 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;  /* RCCÕñµ´Æ÷ÀàĞÍ */
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;  /* RCC HSE ×´Ì¬ */
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;  /* RCC PLL ×´Ì¬ */
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;  /* RCC PLL Ô´Ñ¡Ôñ */
-  RCC_OscInitStruct.PLL.PLLM = 8;  /* RCC PLL ·ÖÆµÒò×ÓM */
-  RCC_OscInitStruct.PLL.PLLN = 336;  /* RCC PLL ·ÖÆµÒò×ÓN */
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;  /* RCC PLL ·ÖÆµÒò×ÓP */
-  RCC_OscInitStruct.PLL.PLLQ = 4;  /* RCC PLL ·ÖÆµÒò×ÓQ */
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)    /* Èç¹ûÅäÖÃÊ§°Ü */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;  /* RCCæŒ¯è¡å™¨ç±»å‹ */
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;  /* RCC HSE çŠ¶æ€ */
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;  /* RCC PLL çŠ¶æ€ */
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;  /* RCC PLL æºé€‰æ‹© */
+  RCC_OscInitStruct.PLL.PLLM = 8;  /* RCC PLL åˆ†é¢‘å› å­M */
+  RCC_OscInitStruct.PLL.PLLN = 336;  /* RCC PLL åˆ†é¢‘å› å­N */
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;  /* RCC PLL åˆ†é¢‘å› å­P */
+  RCC_OscInitStruct.PLL.PLLQ = 4;  /* RCC PLL åˆ†é¢‘å› å­Q */
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)    /* å¦‚æœé…ç½®å¤±è´¥ */
   {
-    Error_Handler();  /* ´íÎó´¦Àí */
+    Error_Handler();  /* é”™è¯¯å¤„ç† */
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK  /* RCCÊ±ÖÓÀàĞÍ */
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;  /* RCCÊ±ÖÓÀàĞÍ */
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;  /* RCCÊ±ÖÓÔ´ */
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;  /* RCCÊ±ÖÓ·ÖÆµÒò×Ó */
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;  /* RCCÊ±ÖÓ·ÖÆµÒò×Ó */
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;  /* RCCÊ±ÖÓ·ÖÆµÒò×Ó */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK  /* RCCæ—¶é’Ÿç±»å‹ */
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;  /* RCCæ—¶é’Ÿç±»å‹ */
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;  /* RCCæ—¶é’Ÿæº */
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;  /* RCCæ—¶é’Ÿåˆ†é¢‘å› å­ */
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;  /* RCCæ—¶é’Ÿåˆ†é¢‘å› å­ */
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;  /* RCCæ—¶é’Ÿåˆ†é¢‘å› å­ */
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)    /* Èç¹ûÅäÖÃÊ§°Ü */
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)    /* å¦‚æœé…ç½®å¤±è´¥ */
   {
-    Error_Handler();  /* ´íÎó´¦Àí */
+    Error_Handler();  /* é”™è¯¯å¤„ç† */
   }
 }
 
 /* USER CODE BEGIN 4 */
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan) {
   if(CO != NULL && CO->CANmodule != NULL) {
-    CO_CANinterrupt(CO->CANmodule); /* ´¦ÀíCANÖĞ¶Ï */
+    CO_CANinterrupt(CO->CANmodule); /* å¤„ç†CANä¸­æ–­ */
   }
 }
 /* USER CODE END 4 */
@@ -196,17 +196,17 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan) {
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void)  /* ´íÎó´¦Àíº¯Êı */
+void Error_Handler(void)  /* é”™è¯¯å¤„ç†å‡½æ•° */
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();  /* ½ûÓÃÖĞ¶Ï */
-  while (1)  /* ÎŞÏŞÑ­»· */
+  __disable_irq();  /* ç¦ç”¨ä¸­æ–­ */
+  while (1)  /* æ— é™å¾ªç¯ */
   {
   }
   /* USER CODE END Error_Handler_Debug */
 }
-#ifdef USE_FULL_ASSERT  /* Èç¹ûÊ¹ÓÃÈ«¶ÏÑÔ */
+#ifdef USE_FULL_ASSERT  /* å¦‚æœä½¿ç”¨å…¨æ–­è¨€ */
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -214,12 +214,12 @@ void Error_Handler(void)  /* ´íÎó´¦Àíº¯Êı */
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)  /* ¶ÏÑÔÊ§°Üº¯Êı */
+void assert_failed(uint8_t *file, uint32_t line)  /* æ–­è¨€å¤±è´¥å‡½æ•° */
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
-#endif /* USE_FULL_ASSERT */  /* Èç¹ûÊ¹ÓÃÈ«¶ÏÑÔ */
+#endif /* USE_FULL_ASSERT */  /* å¦‚æœä½¿ç”¨å…¨æ–­è¨€ */
 
