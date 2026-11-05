@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" width="980" height="470" font-family="Microsoft YaHei, PingFang SC, Helvetica, Arial, sans-serif">
+  <rect width="980" height="470" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="490" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1a2333">基于 CAN 总线的分布式电机控制系统 · 架构</text>
+  <text x="490" y="56" text-anchor="middle" font-size="12" fill="#6b7787">位置指令下发与位置反馈闭环 · 500 Kbps 标准帧</text>
+
+  <!-- 主站 -->
+  <rect x="40" y="100" width="215" height="150" rx="8" fill="#f4f7fb" stroke="#2f4b7c" stroke-width="1.6"/>
+  <text x="147" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#1a2333">STM32F407 主站</text>
+  <text x="147" y="148" text-anchor="middle" font-size="11.5" fill="#4a5568">探索者板 ZGT6</text>
+  <line x1="60" y1="158" x2="235" y2="158" stroke="#c9d4e3" stroke-width="1"/>
+  <text x="60" y="178" font-size="11.5" fill="#33415c">· CAN1（PA11 / PA12）</text>
+  <text x="60" y="198" font-size="11.5" fill="#33415c">· 每 3 s 切换目标角度</text>
+  <text x="60" y="218" font-size="11.5" fill="#33415c">· 90°（16384）↔ 180°（32768）</text>
+  <text x="60" y="238" font-size="11.5" fill="#8a6d3b">· CANopenNode 已移植未启用</text>
+
+  <!-- CAN 总线 -->
+  <line x1="255" y1="175" x2="525" y2="175" stroke="#2f4b7c" stroke-width="2.4"/>
+  <line x1="255" y1="175" x2="255" y2="145" stroke="#2f4b7c" stroke-width="2.4"/>
+  <line x1="525" y1="175" x2="525" y2="205" stroke="#2f4b7c" stroke-width="2.4"/>
+  <rect x="330" y="140" width="120" height="22" rx="4" fill="#eef3fa" stroke="#c9d4e3"/>
+  <text x="390" y="155" text-anchor="middle" font-size="11" fill="#2f4b7c">CAN 500 Kbps</text>
+
+  <!-- 命令帧箭头 -->
+  <text x="390" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#b85042">0x181 · 目标位置（4 B 大端）</text>
+  <!-- 反馈帧箭头 -->
+  <text x="390" y="196" text-anchor="middle" font-size="11" font-weight="700" fill="#1f7a5a">0x201 · 当前位置（4 B 大端）</text>
+  <path d="M505 185 L525 175 L505 165" fill="none" stroke="#b85042" stroke-width="2"/>
+  <path d="M275 165 L255 175 L275 185" fill="none" stroke="#1f7a5a" stroke-width="2"/>
+
+  <!-- 从站 -->
+  <rect x="525" y="100" width="200" height="150" rx="8" fill="#f4f7fb" stroke="#2f4b7c" stroke-width="1.6"/>
+  <text x="625" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#1a2333">STM32F103 从站</text>
+  <text x="625" y="148" text-anchor="middle" font-size="11.5" fill="#4a5568">蓝板 C8T6 + TJA1050</text>
+  <line x1="545" y1="158" x2="705" y2="158" stroke="#c9d4e3" stroke-width="1"/>
+  <text x="545" y="178" font-size="11.5" fill="#33415c">· 滤波器只收 ID = 0x181</text>
+  <text x="545" y="198" font-size="11.5" fill="#33415c">· PA0 上拉按键 → 手动回零</text>
+  <text x="545" y="218" font-size="11.5" fill="#33415c">· 位置差分 → 步数换算</text>
+  <text x="545" y="238" font-size="11.5" fill="#33415c">· IWDG 约 2 s 看门狗</text>
+
+  <!-- UART -->
+  <line x1="725" y1="175" x2="795" y2="175" stroke="#8a6d3b" stroke-width="2.2"/>
+  <text x="760" y="166" text-anchor="middle" font-size="10.5" fill="#8a6d3b">UART</text>
+  <text x="760" y="192" text-anchor="middle" font-size="10.5" fill="#8a6d3b">38400 8N1</text>
+  <path d="M780 165 L795 175 L780 185" fill="none" stroke="#8a6d3b" stroke-width="2"/>
+  <path d="M740 185 L725 175 L740 165" fill="none" stroke="#8a6d3b" stroke-width="2"/>
+
+  <!-- 驱动器 -->
+  <rect x="795" y="100" width="150" height="150" rx="8" fill="#fdf7ee" stroke="#b08d57" stroke-width="1.6"/>
+  <text x="870" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#1a2333">MKS SERVO42C</text>
+  <text x="870" y="146" text-anchor="middle" font-size="11" fill="#4a5568">闭环步进一体机</text>
+  <line x1="815" y1="156" x2="925" y2="156" stroke="#e3d3b8" stroke-width="1"/>
+  <text x="815" y="176" font-size="11" fill="#5c4a2e">16 位磁编码器</text>
+  <text x="815" y="196" font-size="11" fill="#5c4a2e">65536 计数 / 圈</text>
+  <text x="815" y="216" font-size="11" fill="#5c4a2e">FOC 内部闭环</text>
+  <text x="815" y="236" font-size="11" fill="#5c4a2e">3200 步 / 圈</text>
+
+  <!-- 电机 -->
+  <circle cx="870" cy="285" r="26" fill="#f4f7fb" stroke="#2f4b7c" stroke-width="1.6"/>
+  <text x="870" y="290" text-anchor="middle" font-size="11" fill="#2f4b7c">M</text>
+  <line x1="870" y1="250" x2="870" y2="259" stroke="#b08d57" stroke-width="2"/>
+
+  <!-- 换算公式 -->
+  <rect x="40" y="290" width="700" height="66" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
+  <text x="60" y="313" font-size="12" font-weight="700" fill="#2f4b7c">坐标换算（整数运算，避免浮点误差）</text>
+  <text x="60" y="334" font-size="11.5" fill="#33415c">编码器计数 → 步数：step = Δenc × 3200 / 65536 = Δenc × 25 / 512　　　位置 = carry × 65536 + value</text>
+  <text x="60" y="351" font-size="11.5" fill="#33415c">角度：90° = 16384 计数 = 800 步　　180° = 32768 计数 = 1600 步　　1 步 ≈ 20.48 计数</text>
+
+  <!-- 说明 -->
+  <rect x="40" y="372" width="905" height="72" rx="8" fill="#f8fafc" stroke="#c9d4e3"/>
+  <text x="60" y="394" font-size="12" font-weight="700" fill="#2f4b7c">职责划分</text>
+  <text x="60" y="415" font-size="11.5" fill="#33415c">主站负责「发多少度」，从站负责「差多少、拆方向、发指令」，闭环在驱动器内部完成 —— MCU 不参与电流环/速度环整定。</text>
+  <text x="60" y="434" font-size="11.5" fill="#33415c">回零用按键记录参考点 home_full，所有目标都是相对 home 的偏移，规避驱动器 carry 断电手拧后过期的问题。</text>
+</svg>
